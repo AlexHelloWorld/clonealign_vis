@@ -83,7 +83,6 @@ class Tab extends Component {
         <ul className="tabs-titles">
           {listTitles}
         </ul>
-        {/* {this.state.availableFigs[this.state.visibleTab]} */}
         {graphs}
       </div>
     )

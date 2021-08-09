@@ -37,4 +37,6 @@ export function drawSankey(context, data, color, leftHeight, rightHeight, rightS
         }
 
     })
+
+    return columnWidth * 2 + rightStartX
 }

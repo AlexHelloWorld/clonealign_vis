@@ -24,7 +24,7 @@ export function categoricalColorGenerator(allData) {
 }
 
 export function addColors(color, data) {
-    const colors = d3.schemeSet3.concat(d3.schemeSet1).concat(d3.schemeSet2)
+    const colors = schemeSet3.concat(schemeSet1).concat(schemeSet2)
     let colorMap = {}
 
     for (let index = 0; index < data.length; ++index) {

@@ -2,15 +2,16 @@ import { hierarchy, cluster, tree} from "d3-hierarchy";
 import { categoricalColorGenerator } from "./HeatmapAnnotation";
 import { pie } from "d3-shape"
 
-export function drawHeatmapPhylo(context, data, phyloWidth, cellHeight, cluster=true, nodePieCharts=null, color=null, scaleTo = 50, outerRingWidth = 3, padding = 2){
+export function drawHeatmapPhylo(context, data, phyloWidth, cellHeight, is_tree_cluster=true, nodePieCharts=null, color=null, scaleTo = 50, outerRingWidth = 3, padding = 2){
 
   function separation1(a, b) {
-    return a.parent == b.parent ? cellHeight : cellHeight
+    return a.parent === b.parent ? cellHeight : cellHeight
   }
   
-  const tree = data => {
+  const tree_func = data => {
     const root = hierarchy(data);
-    if(cluster){
+    console.log(root)
+    if(is_tree_cluster){
       return cluster().nodeSize([cellHeight , phyloWidth / (root.height + 1)]).separation(separation1)(root);
     }else{
       return tree().nodeSize([cellHeight , phyloWidth / (root.height + 1)]).separation(separation1)(root);
@@ -45,7 +46,7 @@ export function drawHeatmapPhylo(context, data, phyloWidth, cellHeight, cluster=
     }
   }
 
-  const root = tree(data);
+  const root = tree_func(data);
 
   let x0 = Infinity;
   let x1 = -x0;
@@ -90,14 +91,14 @@ function drawNodePieCharts(context, data, treeData, color, scaleTo = 100, outerR
       arcs[data[index].name].outer = [{"name":data[index].name, "value":total_count}]    
     }
     
-    const pie = pie()
+    const pie_func = pie()
       .padAngle(0.005)
       .sort(null)
       .value(d => d.value)
   
     // draw outer ring
     function drawOuterRing(context, dataOuter, color, scale, x, y){
-      const data = pie(dataOuter)
+      const data = pie_func(dataOuter)
       for (let index = 0; index < data.length; ++index) {
         context.beginPath()
         context.fillStyle = color(data[0].data.name)
@@ -109,7 +110,7 @@ function drawNodePieCharts(context, data, treeData, color, scaleTo = 100, outerR
   
     // draw inner pie
     function drawInnerPie(context, dataOuter, dataInner, color, scale, x, y){
-      const data = pie(dataInner)
+      const data = pie_func(dataInner)
       const radius = dataOuter[0].value
       for (let index = 0; index < data.length; ++index) {
         context.beginPath()

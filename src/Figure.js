@@ -25,7 +25,7 @@ class Figure extends Component {
         const canvasMap = select(node)
             .attr("class", "canvas-plot")
             .attr("width", 2800)
-            .attr("height", 2000)
+            .attr("height", 10000)
 
         const context = canvasMap.node().getContext('2d')
 
@@ -53,10 +53,10 @@ class Figure extends Component {
         colors[0] = pieChartColor
 
         // draw phylo tree
-        context.translate(0, 100)
+        context.translate(0, 200)
         context.save()
         context.translate(500, 0)
-        const phyloDims = drawHeatmapPhylo(context, data.tree, 1500, 1, false, data.pie_chart, pieChartColor)
+        const phyloDims = drawHeatmapPhylo(context, data.tree, 1500, 1, true, data.pie_chart, pieChartColor)
         context.restore()
 
         // move to heatmaps

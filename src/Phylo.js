@@ -10,14 +10,57 @@ export function drawHeatmapPhylo(context, data, phyloWidth, cellHeight, is_tree_
   
   const tree_func = data => {
     const root = hierarchy(data);
-    console.log(root)
+    //console.log(root)
     if(is_tree_cluster){
       return cluster().nodeSize([cellHeight , phyloWidth / (root.height + 1)]).separation(separation1)(root);
     }else{
       return tree().nodeSize([cellHeight , phyloWidth / (root.height + 1)]).separation(separation1)(root);
     }
-    
   }  
+
+  function calculateMaxLength(tree, previousLength){
+    if(tree.data !== undefined){
+      tree.y_scaled = tree.data.length + previousLength
+      if(tree.children !== undefined){
+        for(let i=0; i<tree.children.length; i++){
+          calculateMaxLength(tree.children[i], tree.y_scaled)
+        }
+      }      
+    }
+
+  }
+
+  function calculateMaxHeight(tree){
+    let currentHeight = tree.y;
+    let childY = tree.y;
+    let currentScaledY = tree.y_scaled
+    let childScaledY = tree.y_scaled
+    if(tree.children != undefined){
+      for(let i=0; i<tree.children.length; i++){
+        let results = calculateMaxHeight(tree.children[i]);
+        childY = results[0]
+        currentHeight = currentHeight > childY ? currentHeight : childY;
+        childScaledY = results[1]
+        currentScaledY = currentScaledY > childScaledY ? currentScaledY : childScaledY;
+      }
+    }
+    return [currentHeight, currentScaledY];
+  }  
+
+  function scaleTreeHeight(tree, scale){
+    tree.y = tree.y_scaled * scale
+    if(tree.children !== undefined){
+      for(let i=0; i<tree.children.length; i++){
+        scaleTreeHeight(tree.children[i], scale)
+      }
+    }  
+  }  
+
+  function scaleTree(tree){
+    calculateMaxLength(tree, 0)
+    let maxs = calculateMaxHeight(tree)
+    scaleTreeHeight(tree, maxs[0]/maxs[1])
+  }
 
   // draw lines connecting each node in phylo tree
   function drawLines(descendant){
@@ -48,6 +91,8 @@ export function drawHeatmapPhylo(context, data, phyloWidth, cellHeight, is_tree_
 
   const root = tree_func(data);
 
+  console.log(root)
+
   let x0 = Infinity;
   let x1 = -x0;
   root.each(d => {
@@ -67,6 +112,10 @@ export function drawHeatmapPhylo(context, data, phyloWidth, cellHeight, is_tree_
   context.translate(0, -x0)
 
   // draw phylogenetic tree
+  if(root.data.length !== undefined){
+    root.data.length = 0
+    scaleTree(root)
+  }
   root.descendants().forEach(drawLines);
 
   if(nodePieCharts !== null){

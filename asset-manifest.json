@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/clonealign_vis/static/css/main.92e47d9d.chunk.css",
+    "main.js": "/clonealign_vis/static/js/main.c2abc80b.chunk.js",
+    "main.js.map": "/clonealign_vis/static/js/main.c2abc80b.chunk.js.map",
+    "runtime-main.js": "/clonealign_vis/static/js/runtime-main.2a03deb6.js",
+    "runtime-main.js.map": "/clonealign_vis/static/js/runtime-main.2a03deb6.js.map",
+    "static/js/2.0ec27666.chunk.js": "/clonealign_vis/static/js/2.0ec27666.chunk.js",
+    "static/js/2.0ec27666.chunk.js.map": "/clonealign_vis/static/js/2.0ec27666.chunk.js.map",
+    "static/js/3.e2962415.chunk.js": "/clonealign_vis/static/js/3.e2962415.chunk.js",
+    "static/js/3.e2962415.chunk.js.map": "/clonealign_vis/static/js/3.e2962415.chunk.js.map",
+    "index.html": "/clonealign_vis/index.html",
+    "static/css/main.92e47d9d.chunk.css.map": "/clonealign_vis/static/css/main.92e47d9d.chunk.css.map",
+    "static/js/2.0ec27666.chunk.js.LICENSE.txt": "/clonealign_vis/static/js/2.0ec27666.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2a03deb6.js",
+    "static/js/2.0ec27666.chunk.js",
+    "static/css/main.92e47d9d.chunk.css",
+    "static/js/main.c2abc80b.chunk.js"
+  ]
+}

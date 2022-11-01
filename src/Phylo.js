@@ -1,5 +1,5 @@
 import { hierarchy, cluster, tree} from "d3-hierarchy";
-import { categoricalColorGenerator } from "./HeatmapAnnotation";
+import {convertHexToRgba} from "./CategoricalColor"
 import { pie } from "d3-shape"
 
 export function drawHeatmapPhylo(context, data, phyloWidth, cellHeight, is_tree_cluster=true, nodePieCharts=null, color=null, scaleTo = 50, outerRingWidth = 3, padding = 2){
@@ -146,11 +146,11 @@ function drawNodePieCharts(context, data, treeData, color, scaleTo = 100, outerR
       .value(d => d.value)
   
     // draw outer ring
-    function drawOuterRing(context, dataOuter, color, scale, x, y){
+    function drawOuterRing(context, dataOuter, color, scale, x, y, alpha = 0.7){
       const data = pie_func(dataOuter)
       for (let index = 0; index < data.length; ++index) {
         context.beginPath()
-        context.fillStyle = color(data[0].data.name)
+        context.fillStyle = convertHexToRgba(color(data[0].data.name), alpha)
         context.arc(x, y, data[index].value / scale + outerRingWidth + padding, data[index].startAngle,  data[index].endAngle, true)
         context.arc(x, y, data[index].value / scale + padding, data[index].startAngle, data[index].endAngle, false)
         context.fill()  
@@ -158,12 +158,12 @@ function drawNodePieCharts(context, data, treeData, color, scaleTo = 100, outerR
     }
   
     // draw inner pie
-    function drawInnerPie(context, dataOuter, dataInner, color, scale, x, y){
+    function drawInnerPie(context, dataOuter, dataInner, color, scale, x, y, alpha = 0.7){
       const data = pie_func(dataInner)
       const radius = dataOuter[0].value
       for (let index = 0; index < data.length; ++index) {
         context.beginPath()
-        context.fillStyle = color(data[index].data.name)
+        context.fillStyle = convertHexToRgba(color(data[index].data.name), alpha)
         context.moveTo(x, y)
         context.arc(x, y, radius / scale, data[index].startAngle,  data[index].endAngle, false)
         context.lineTo(x, y)

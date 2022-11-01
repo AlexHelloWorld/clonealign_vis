@@ -20,7 +20,8 @@ export function drawChromosomeHeatmap(context, color, heatmapData, cellWidth = 1
   function drawTickText(index) {
     context.textAlign = "center"
     context.fillStyle = "#000000"
-    context.fillText(heatmapData[index].chr, (xOffset(index) + xOffset(index + 1)) / 2, index % 2 === 1 ? 25 : 35)
+    context.font = cellWidth * 24 + "px Arial"
+    context.fillText(heatmapData[index].chr, (xOffset(index) + xOffset(index + 1)) / 2, index % 2 === 1 ? 30 : 43)
   }
 
   function drawHeatmapCell(x, y, color) {

@@ -1,4 +1,4 @@
-export function drawHeatmapRowAnnotation(context, colors, annotationData, annotationColumns, cellHeight = 1, cellWidth = 1, padding = 2) {
+export function drawHeatmapRowAnnotation(context, colors, annotationData, annotationColumns, cellHeight = 1, cellWidth = 1, padding = 2, showColumnLabel=false) {
   function drawAnnotationCell(x, y, color) {
     context.beginPath()
     context.fillStyle = color
@@ -10,7 +10,7 @@ export function drawHeatmapRowAnnotation(context, colors, annotationData, annota
     context.translate(x, y)
     context.fillStyle = "black"
     context.textAlign = "right";
-    context.font = cellWidth + "px Arial"
+    context.font = cellWidth + 4 + "px Arial"
     let width = context.measureText(label).width
     context.rotate(3 * Math.PI / 2)
     context.fillText(label, 0, 0)
@@ -37,7 +37,9 @@ export function drawHeatmapRowAnnotation(context, colors, annotationData, annota
   // draw annotation columns
   annotationColumns.forEach((columnName, columnIndex) => {
     drawOneAnnotation(columnIndex, colors[columnIndex], annotationData[columnName])
-    textHeight = Math.max(drawOneAnnotationLabel(xOffset(columnIndex) + cellWidth, annotationHeight + 5, columnName), textHeight)
+    if(showColumnLabel){
+      textHeight = Math.max(drawOneAnnotationLabel(xOffset(columnIndex) + cellWidth, annotationHeight + 5, columnName), textHeight)
+    }
   })
 
   annotationHeight = annotationHeight + textHeight + 5

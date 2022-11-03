@@ -22,14 +22,20 @@ class Figure extends Component {
         const node = this.node
         const data = this.props.data
 
+        const columnAnnotations = ["clonealign_tree_id"]
+
+        let expr_length = data.expr_matrix[0].value.length
+        let cnv_length = data.cnv_meta[columnAnnotations[0]].length 
+
+        const canvas_length = Math.max(expr_length, cnv_length)
+
         const canvasMap = select(node)
             .attr("class", "canvas-plot")
             .attr("width", 4000)
-            .attr("height", 10000)
+            .attr("height", canvas_length  + 200)
 
         const context = canvasMap.node().getContext('2d')
 
-        const columnAnnotations = ["clonealign_tree_id"]
 
         // generate colors for annotation columns
         let colors = columnAnnotations.slice()
@@ -53,11 +59,13 @@ class Figure extends Component {
         colors[0] = pieChartColor
 
         // draw phylo tree
-        context.translate(0, 200)
-        context.save()
-        context.translate(500, 0)
-        const phyloDims = drawHeatmapPhylo(context, data.tree, 1000, 0.7, true, data.pie_chart, pieChartColor)
-        context.restore()
+        // context.translate(0, 200)
+        // context.save()
+        // context.translate(500, 0)
+        // const phyloDims = drawHeatmapPhylo(context, data.tree, 1000, 0.7, true, data.pie_chart, pieChartColor)
+        // context.restore()
+        context.translate(400, 100)
+        const phyloDims = 0
 
         // move to heatmaps
         context.save()
